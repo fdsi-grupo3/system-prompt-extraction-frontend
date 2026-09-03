@@ -1,0 +1,17 @@
+.app-shell {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: system-ui, sans-serif;
+  text-align: left;
+}
+
+.app-shell header h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.app-shell header p {
+  color: #666;
+  margin-top: 0;
+}
