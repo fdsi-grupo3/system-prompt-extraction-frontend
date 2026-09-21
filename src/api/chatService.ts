@@ -1,19 +1,23 @@
-import type { ChatApiRequest, ChatApiResponse } from "../types/chat";
+import type { ChatApiRequest, ChatApiResponse, ChatMode } from "../types/chat";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
 
-/** Error de comunicación con el backend (red o respuesta HTTP no-2xx). */
+const ENDPOINT_BY_MODE: Record<ChatMode, string> = {
+  secure: "/api/chat",
+  unsecure: "/api/chat/unsecure",
+};
+
 export class ChatServiceError extends Error {}
 
-/** Llama a POST /api/chat del backend Spring Boot (arquitectura Secure). */
 export async function sendChatMessage(
   payload: ChatApiRequest,
+  mode: ChatMode,
   signal?: AbortSignal,
 ): Promise<ChatApiResponse> {
   let response: Response;
 
   try {
-    response = await fetch(`${API_URL}/api/chat`, {
+    response = await fetch(`${API_URL}${ENDPOINT_BY_MODE[mode]}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

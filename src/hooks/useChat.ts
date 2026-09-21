@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import { ChatServiceError, sendChatMessage } from "../api/chatService";
-import type { ChatMessage } from "../types/chat";
+import type { ChatMessage, ChatMode } from "../types/chat";
 
 function createId(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -14,7 +14,7 @@ function createId(): string {
  * La sesión se identifica con un UUID generado una vez por carga de la app,
  * para que el backend pueda agrupar los logs de intentos de extracción.
  */
-export function useChat() {
+export function useChat(mode: ChatMode) {
   const sessionIdRef = useRef<string>(createId());
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isSending, setIsSending] = useState(false);
@@ -38,10 +38,13 @@ export function useChat() {
       setIsSending(true);
 
       try {
-        const response = await sendChatMessage({
-          message: trimmed,
-          sessionId: sessionIdRef.current,
-        });
+        const response = await sendChatMessage(
+          {
+            message: trimmed,
+            sessionId: sessionIdRef.current,
+          },
+          mode,
+        );
 
         const assistantMessage: ChatMessage = {
           id: createId(),
@@ -77,7 +80,7 @@ export function useChat() {
         setIsSending(false);
       }
     },
-    [isSending],
+    [isSending, mode],
   );
 
   return { messages, isSending, send };

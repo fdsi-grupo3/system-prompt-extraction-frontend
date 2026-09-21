@@ -2,6 +2,8 @@
 
 export type ChatRole = "user" | "assistant";
 
+export type ChatMode = "secure" | "unsecure";
+
 export type BlockedBy = "INPUT_GUARD" | "OUTPUT_FILTER" | null;
 
 /** Mensaje ya renderizado en la UI (incluye metadatos de seguridad para mostrarlos). */
