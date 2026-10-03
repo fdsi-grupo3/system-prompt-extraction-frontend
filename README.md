@@ -35,6 +35,12 @@ abre `http://localhost:5173` y prueba:
 Los mensajes bloqueados por el Input Guard o el Output Filter se muestran con
 una insignia roja indicando qué control actuó.
 
+La pestaña **Logs** consume `GET /api/logs` del backend y lista los intentos de
+extracción bloqueados por cualquiera de las capas de la arquitectura Secure
+(Input Guard por regex/clasificador/respaldo heurístico, Output Filter
+individual o acumulado por sesión), útil para auditar el experimento sin salir
+de la interfaz.
+
 ## Scripts
 
 | Comando            | Qué hace                            |
@@ -48,7 +54,7 @@ una insignia roja indicando qué control actuó.
 
 ```
 src/
-  api/chatService.ts        cliente HTTP para POST /api/chat
+  api/chatService.ts        cliente HTTP para POST /api/chat y GET /api/logs
   types/chat.ts             tipos compartidos (deben reflejar los DTOs del backend)
   hooks/useChat.ts          estado del historial de mensajes + sesión
   components/
@@ -57,10 +63,13 @@ src/
     SecurityBadge.tsx        insignia roja de bloqueo (Input Guard / Output Filter)
     SecurityStatusStrip.tsx  franja "Arquitectura Secure" con los 3 controles activos
     ChatInput.tsx             caja de texto + botón de envío
+    AttackLogsPanel.tsx       pestaña "Logs": lista GET /api/logs con color por etapa de bloqueo
 ```
 
 ## Estado
 
 Hito 2: interfaz de chat completa contra la arquitectura Secure del backend,
-con indicadores visuales de los controles de seguridad activos y de los
-bloqueos por Input Guard / Output Filter.
+con indicadores visuales de los controles de seguridad activos, los bloqueos
+por Input Guard / Output Filter, y una pestaña de Logs para auditar los
+intentos bloqueados (incluye las nuevas etapas de respaldo heurístico y
+acumulado de sesión del backend).

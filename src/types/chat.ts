@@ -33,3 +33,20 @@ export interface ChatApiResponse {
   sessionId: string;
   error: boolean;
 }
+
+/** Etapa que detectó/bloqueó un intento, tal como la registra AttackLogService. */
+export type AttackLogStage =
+  | "INPUT_GUARD_REGEX"
+  | "INPUT_GUARD_LLM"
+  | "INPUT_GUARD_FALLBACK"
+  | "OUTPUT_FILTER"
+  | "OUTPUT_FILTER_ACCUMULATED";
+
+/** Entrada devuelta por GET /api/logs (debe reflejar AttackLogEntry.java del backend). */
+export interface AttackLogEntry {
+  timestamp: string;
+  sessionId: string;
+  stage: AttackLogStage;
+  contentSnippet: string;
+  reason: string;
+}

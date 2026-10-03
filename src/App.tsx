@@ -1,7 +1,10 @@
 import { useState } from "react";
+import AttackLogsPanel from "./components/AttackLogsPanel";
 import ChatWindow from "./components/ChatWindow";
 import { useChat } from "./hooks/useChat";
 import type { ChatMode } from "./types/chat";
+
+type View = ChatMode | "logs";
 
 function ChatSession({ mode }: { mode: ChatMode }) {
   const { messages, isSending, send } = useChat(mode);
@@ -9,7 +12,7 @@ function ChatSession({ mode }: { mode: ChatMode }) {
 }
 
 function App() {
-  const [mode, setMode] = useState<ChatMode>("secure");
+  const [view, setView] = useState<View>("secure");
 
   return (
     <div className="flex min-h-dvh flex-col bg-neutral-50 dark:bg-neutral-900">
@@ -27,15 +30,15 @@ function App() {
           <div
             className="flex rounded-lg border border-neutral-200 p-1 dark:border-neutral-700"
             role="radiogroup"
-            aria-label="Arquitectura activa"
+            aria-label="Vista activa"
           >
             <button
               type="button"
               role="radio"
-              aria-checked={mode === "secure"}
-              onClick={() => setMode("secure")}
+              aria-checked={view === "secure"}
+              onClick={() => setView("secure")}
               className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                mode === "secure"
+                view === "secure"
                   ? "bg-emerald-600 text-white"
                   : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
               }`}
@@ -45,22 +48,35 @@ function App() {
             <button
               type="button"
               role="radio"
-              aria-checked={mode === "unsecure"}
-              onClick={() => setMode("unsecure")}
+              aria-checked={view === "unsecure"}
+              onClick={() => setView("unsecure")}
               className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                mode === "unsecure"
+                view === "unsecure"
                   ? "bg-red-600 text-white"
                   : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
               }`}
             >
               Unsecure
             </button>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={view === "logs"}
+              onClick={() => setView("logs")}
+              className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                view === "logs"
+                  ? "bg-neutral-800 text-white dark:bg-neutral-200 dark:text-neutral-900"
+                  : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+              }`}
+            >
+              Logs
+            </button>
           </div>
         </div>
       </header>
 
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-4">
-        <ChatSession key={mode} mode={mode} />
+        {view === "logs" ? <AttackLogsPanel /> : <ChatSession key={view} mode={view} />}
       </main>
     </div>
   );

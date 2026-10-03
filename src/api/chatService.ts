@@ -1,4 +1,4 @@
-import type { ChatApiRequest, ChatApiResponse, ChatMode } from "../types/chat";
+import type { AttackLogEntry, ChatApiRequest, ChatApiResponse, ChatMode } from "../types/chat";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
 
@@ -41,4 +41,23 @@ export async function sendChatMessage(
   }
 
   return (await response.json()) as ChatApiResponse;
+}
+
+/** Trae los últimos intentos bloqueados (Input Guard / Output Filter) desde GET /api/logs. */
+export async function fetchAttackLogs(limit = 50, signal?: AbortSignal): Promise<AttackLogEntry[]> {
+  let response: Response;
+
+  try {
+    response = await fetch(`${API_URL}/api/logs?limit=${limit}`, { signal });
+  } catch {
+    throw new ChatServiceError(
+      `No se pudo conectar con el backend. Verifica que esté corriendo en ${API_URL}.`,
+    );
+  }
+
+  if (!response.ok) {
+    throw new ChatServiceError(`Error del servidor (${response.status}): ${response.statusText}`);
+  }
+
+  return (await response.json()) as AttackLogEntry[];
 }
