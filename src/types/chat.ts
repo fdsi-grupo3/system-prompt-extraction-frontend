@@ -39,8 +39,11 @@ export type AttackLogStage =
   | "INPUT_GUARD_REGEX"
   | "INPUT_GUARD_LLM"
   | "INPUT_GUARD_FALLBACK"
+  | "INPUT_GUARD_KEYWORD_COMBO"
   | "OUTPUT_FILTER"
-  | "OUTPUT_FILTER_ACCUMULATED";
+  | "OUTPUT_FILTER_ACCUMULATED"
+  | "OUTPUT_FILTER_ML"
+  | "OUTPUT_FILTER_ML_ACCUMULATED";
 
 /** Entrada devuelta por GET /api/logs (debe reflejar AttackLogEntry.java del backend). */
 export interface AttackLogEntry {

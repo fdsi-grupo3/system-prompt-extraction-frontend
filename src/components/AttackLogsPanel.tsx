@@ -6,8 +6,11 @@ const STAGE_LABELS: Record<AttackLogStage, string> = {
   INPUT_GUARD_REGEX: "Input Guard · regex",
   INPUT_GUARD_LLM: "Input Guard · clasificador LLM",
   INPUT_GUARD_FALLBACK: "Input Guard · respaldo heurístico",
-  OUTPUT_FILTER: "Output Filter",
-  OUTPUT_FILTER_ACCUMULATED: "Output Filter · acumulado de sesión",
+  INPUT_GUARD_KEYWORD_COMBO: "Input Guard · combinación de palabras clave",
+  OUTPUT_FILTER: "Output Filter · léxico",
+  OUTPUT_FILTER_ACCUMULATED: "Output Filter · léxico, acumulado de sesión",
+  OUTPUT_FILTER_ML: "Output Filter · IA",
+  OUTPUT_FILTER_ML_ACCUMULATED: "Output Filter · IA, acumulado de sesión",
 };
 
 const STAGE_COLORS: Record<AttackLogStage, string> = {
@@ -15,7 +18,10 @@ const STAGE_COLORS: Record<AttackLogStage, string> = {
   INPUT_GUARD_LLM: "border-orange-300 bg-orange-50 text-orange-800 dark:border-orange-800 dark:bg-orange-950 dark:text-orange-300",
   INPUT_GUARD_FALLBACK: "border-fuchsia-300 bg-fuchsia-50 text-fuchsia-800 dark:border-fuchsia-800 dark:bg-fuchsia-950 dark:text-fuchsia-300",
   OUTPUT_FILTER: "border-red-300 bg-red-50 text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-300",
+  INPUT_GUARD_KEYWORD_COMBO: "border-yellow-300 bg-yellow-50 text-yellow-800 dark:border-yellow-800 dark:bg-yellow-950 dark:text-yellow-300",
   OUTPUT_FILTER_ACCUMULATED: "border-purple-300 bg-purple-50 text-purple-800 dark:border-purple-800 dark:bg-purple-950 dark:text-purple-300",
+  OUTPUT_FILTER_ML: "border-rose-300 bg-rose-50 text-rose-800 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-300",
+  OUTPUT_FILTER_ML_ACCUMULATED: "border-violet-300 bg-violet-50 text-violet-800 dark:border-violet-800 dark:bg-violet-950 dark:text-violet-300",
 };
 
 function formatTimestamp(timestamp: string): string {
